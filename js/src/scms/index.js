@@ -3,7 +3,7 @@ var gitScm = require('./git');
 
 var scms = [gitScm /*, hgScm*/ ];
 
-exports.directory = function (directory) {
+var directory = function (directory) {
     scms.forEach(function (scm) {
         var rootDirectory = scm.detect(directory);
         if (rootDirectory) {
@@ -13,3 +13,5 @@ exports.directory = function (directory) {
         }
     });
 };
+
+module.exports.directory = directory;

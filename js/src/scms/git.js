@@ -4,9 +4,11 @@ var execa = require('execa'),
     findUp = require('find-up'),
     dirname = require('path');
 
-exports.name = 'git';
+module.exports.name = 'git';
+var gitScm = function (directory) {
 
-exports.detect = function (directory) {
+}
+gitScm.detect = function (directory) {
     var gitDirectory = findUp.sync('.git', {
         cwd: directory
     });
@@ -15,13 +17,13 @@ exports.detect = function (directory) {
     }
 };
 
-exports.runGit = function (directory, args) {
+gitScm.runGit = function (directory, args) {
     execa.sync('git', args, {
         cwd: directory
     });
 };
 
-exports.getLines = function (execaResult) {
+gitScm.getLines = function (execaResult) {
     return execaResult.stdout.split('\n');
 };
 
@@ -49,9 +51,9 @@ exports.getLines = function (execaResult) {
 //     }
 // };
 
-exports.getChangedFiles = function (directory, revision, staged) {
-    return [].concat(exports.getLines(
-        exports.runGit(
+gitScm.getChangedFiles = function (directory, revision, staged) {
+    module.return[].concat(exports.getLines(
+        gitScm.runGit(
             directory,
             [
                 'diff',
@@ -62,8 +64,8 @@ exports.getChangedFiles = function (directory, revision, staged) {
             ].filter(Boolean)
         )
     )).concat((staged ? [] :
-        exports.getLines(
-            exports.runGit(directory, ['ls-files', '--others', '--exclude-standard'])
+        gitScm.getLines(
+            gitScm.runGit(directory, ['ls-files', '--others', '--exclude-standard'])
         ))).filter(Boolean);
 };
 
@@ -74,3 +76,5 @@ exports.getChangedFiles = function (directory, revision, staged) {
 // var stageFile = function (directory, file) {
 //     runGit(directory, ['add', file]);
 // };
+
+module.exports.gitScm = gitScm;
