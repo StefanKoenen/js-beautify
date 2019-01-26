@@ -1,13 +1,11 @@
-import execa from 'execa';
-import findUp from 'find-up';
-import {
-    dirname
-} from 'path';
+var execa = require('execa'),
+    findUp = require('find-up'),
+    dirname = require('path');
 
-export const name = 'git';
+var name = 'git';
 
-export const detect = directory => {
-    const gitDirectory = findUp.sync('.git', {
+var detect = function (directory) {
+    var gitDirectory = findUp.sync('.git', {
         cwd: directory
     });
     if (gitDirectory) {
@@ -15,19 +13,22 @@ export const detect = directory => {
     }
 };
 
-const runGit = (directory, args) =>
+var runGit = function (directory, args) {
     execa.sync('git', args, {
         cwd: directory,
     });
+}
 
-const getLines = execaResult => execaResult.stdout.split('\n');
+var getLines = function (execaResult) {
+    return execaResult.stdout.split('\n');
+}
 
-export const getSinceRevision = (directory, {
+var getSinceRevision = function (directory, {
     staged,
     branch
-}) => {
+}) {
     try {
-        const revision = staged ?
+        var revision = staged ?
             'HEAD' :
             runGit(directory, [
                 'merge-base',
@@ -46,7 +47,7 @@ export const getSinceRevision = (directory, {
     }
 };
 
-export const getChangedFiles = (directory, revision, staged) => {
+var getChangedFiles = function (directory, revision, staged) {
     return [
         ...getLines(
             runGit(
@@ -60,18 +61,17 @@ export const getChangedFiles = (directory, revision, staged) => {
                 ].filter(Boolean)
             )
         ),
-        ...(staged ?
-            [] :
+        ...(staged ? [] :
             getLines(
                 runGit(directory, ['ls-files', '--others', '--exclude-standard'])
             )),
     ].filter(Boolean);
 };
 
-export const getUnstagedChangedFiles = directory => {
+var getUnstagedChangedFiles = directory => {
     return getChangedFiles(directory, null, false);
 };
 
-export const stageFile = (directory, file) => {
+var stageFile = function (directory, file) {
     runGit(directory, ['add', file]);
 };

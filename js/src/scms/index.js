@@ -1,10 +1,10 @@
-import * as gitScm from './git';
+var gitScm = require('./git');
 
-const scms = [gitScm /*, hgScm*/ ];
+var scms = [gitScm /*, hgScm*/ ];
 
 export default directory => {
     scms.forEach(scm => {
-        const rootDirectory = scm.detect(directory);
+        var rootDirectory = scm.detect(directory);
         if (rootDirectory) {
             return Object.assign({
                 rootDirectory
