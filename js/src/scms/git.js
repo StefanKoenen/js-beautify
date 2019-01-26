@@ -50,7 +50,7 @@ exports.getLines = function (execaResult) {
 // };
 
 exports.getChangedFiles = function (directory, revision, staged) {
-    return [].concat(getLines(
+    return [].concat(exports.getLines(
         exports.runGit(
             directory,
             [
@@ -63,7 +63,7 @@ exports.getChangedFiles = function (directory, revision, staged) {
         )
     )).concat((staged ? [] :
         exports.getLines(
-            runGit(directory, ['ls-files', '--others', '--exclude-standard'])
+            exports.runGit(directory, ['ls-files', '--others', '--exclude-standard'])
         ))).filter(Boolean);
 };
 
