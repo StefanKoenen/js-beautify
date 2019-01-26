@@ -648,25 +648,31 @@ function checkFiles(parsed) {
 
 
   if (parsed.precommit) {
-    const scm = scms(currentDirectory);
+    var scm = scms(currentDirectory);
     if (!scm) {
       throw new Error('Unable to detect a source control manager.');
     }
 
-    const directory = scm.rootDirectory;
-    const revision = since || scm.getSinceRevision(directory, {
+    var directory = scm.rootDirectory;
+    var revision = since || scm.getSinceRevision(directory, {
       staged,
       branch
     });
 
     onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
 
-    const changedFiles = scm.getChangedFiles(directory, revision, staged);
-    const unstagedFiles = staged ? scm.getUnstagedChangedFiles(directory, revision) : [];
-    const wasFullyStaged = f => unstagedFiles.indexOf(f) < 0;
+    var changedFiles = scm.getChangedFiles(directory, revision, staged);
+    var unstagedFiles = staged ? scm.getUnstagedChangedFiles(directory, revision) : [];
+    var wasFullyStaged = function (f) {
+      return unstagedFiles.indexOf(f) < 0;
+    };
 
-    const files = changedFiles.filter(wasFullyStaged).map(f => path.resolve(f));
-    parsed.files = files.filter(f => parsed.files.indexOf(f) !== -1);
+    var files = changedFiles.filter(wasFullyStaged).map(function (f) {
+      path.resolve(f)
+    });
+    parsed.files = files.filter(function (f) {
+      return parsed.files.indexOf(f) !== -1
+    });
   }
 
   if ('string' === typeof parsed.outfile && isTTY && !parsed.files.length) {

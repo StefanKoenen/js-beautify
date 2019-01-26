@@ -5,6 +5,7 @@ var execa = require('execa'),
 var name = 'git';
 
 var detect = function (directory) {
+    "use strict";
     var gitDirectory = findUp.sync('.git', {
         cwd: directory
     });
@@ -14,40 +15,44 @@ var detect = function (directory) {
 };
 
 var runGit = function (directory, args) {
+    "use strict";
     execa.sync('git', args, {
         cwd: directory,
     });
-}
-
-var getLines = function (execaResult) {
-    return execaResult.stdout.split('\n');
-}
-
-var getSinceRevision = function (directory, {
-    staged,
-    branch
-}) {
-    try {
-        var revision = staged ?
-            'HEAD' :
-            runGit(directory, [
-                'merge-base',
-                'HEAD',
-                branch || 'master',
-            ]).stdout.trim();
-        return runGit(directory, ['rev-parse', '--short', revision]).stdout.trim();
-    } catch (error) {
-        if (
-            /HEAD/.test(error.message) ||
-            (staged && /Needed a single revision/.test(error.message))
-        ) {
-            return null;
-        }
-        throw error;
-    }
 };
 
+var getLines = function (execaResult) {
+    "use strict";
+    return execaResult.stdout.split('\n');
+};
+
+// var getSinceRevision = function (directory, {
+//     staged,
+//     branch
+// }) {
+//     "use strict";
+//     try {
+//         var revision = staged ?
+//             'HEAD' :
+//             runGit(directory, [
+//                 'merge-base',
+//                 'HEAD',
+//                 branch || 'master',
+//             ]).stdout.trim();
+//         return runGit(directory, ['rev-parse', '--short', revision]).stdout.trim();
+//     } catch (error) {
+//         if (
+//             /HEAD/.test(error.message) ||
+//             (staged && /Needed a single revision/.test(error.message))
+//         ) {
+//             return null;
+//         }
+//         throw error;
+//     }
+// };
+
 var getChangedFiles = function (directory, revision, staged) {
+    "use strict";
     return [
         ...getLines(
             runGit(
@@ -68,10 +73,12 @@ var getChangedFiles = function (directory, revision, staged) {
     ].filter(Boolean);
 };
 
-var getUnstagedChangedFiles = directory => {
-    return getChangedFiles(directory, null, false);
-};
+// var getUnstagedChangedFiles = directory => {
+//     "use strict";
+//     return getChangedFiles(directory, null, false);
+// };
 
-var stageFile = function (directory, file) {
-    runGit(directory, ['add', file]);
-};
+// var stageFile = function (directory, file) {
+//     "use strict";
+//     runGit(directory, ['add', file]);
+// };
