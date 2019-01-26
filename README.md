@@ -1,6 +1,5 @@
 # JS Beautifier
-[![Build Status](https://api.travis-ci.org/beautify-web/js-beautify.svg?branch=master)](http://travis-ci.org/beautify-web/js-beautify)
-[![Build status](https://ci.appveyor.com/api/projects/status/5bxmpvew5n3e58te/branch/master?svg=true)](https://ci.appveyor.com/project/beautify-web/js-beautify/branch/master)
+[![Build Status](https://dev.azure.com/beautifier-io/js-beautify/_apis/build/status/beautify-web.js-beautify)](https://dev.azure.com/beautifier-io/js-beautify/_build/latest?definitionId=1)
 
 [![PyPI version](https://img.shields.io/pypi/v/jsbeautifier.svg)](https://pypi.python.org/pypi/jsbeautifier)
 [![CDNJS version](https://img.shields.io/cdnjs/v/js-beautify.svg)](https://cdnjs.com/libraries/js-beautify)
@@ -62,17 +61,17 @@ JS Beautifier is hosted on two CDN services: [cdnjs](https://cdnjs.com/libraries
 
 To pull the latest version from one of these services include one set of the script tags below in your document:
 ```html
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-css.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify-css.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify-html.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-css.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.8.8/beautify-html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.9.0-beta4/beautify-html.min.js"></script>
 
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify-css.js"></script>
-<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.8.8/js/lib/beautify-html.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.9.0-beta4/js/lib/beautify.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.9.0-beta4/js/lib/beautify-css.js"></script>
+<script src="https://cdn.rawgit.com/beautify-web/js-beautify/v1.9.0-beta4/js/lib/beautify-html.js"></script>
 ```
 
 Older versions are available by changing the version number.
@@ -160,7 +159,7 @@ CLI Options:
   -r, --replace    Write output in-place, replacing input
   -o, --outfile    Write output to file (default stdout)
   --config         Path to config file
-  --type           [js|css|html] ["js"]
+  --type           [js|css|html] ["js"] Select beautifier type (NOTE: Does *not* filter files, only defines which beautifier type to run)
   -q, --quiet      Suppress logging to stdout
   -h, --help       Show this help
   -v, --version    Show the version
@@ -186,7 +185,7 @@ Beautifier Options:
   -B, --break-chained-methods       Break chained method calls across subsequent lines
   -k, --keep-array-indentation      Preserve array indentation
   -x, --unescape-strings            Decode printable characters encoded in xNN notation
-  -w, --wrap-line-length            Wrap lines at next opportunity after N characters [0]
+  -w, --wrap-line-length            Wrap lines that exceed N characters [0]
   -X, --e4x                         Pass E4X xml literals through untouched
   --good-stuff                      Warm the cockles of Crockford's heart
   -C, --comma-first                 Put commas at the beginning of new line instead of end
@@ -201,7 +200,7 @@ Which correspond to the underscored option keys for both library interfaces
     "indent_size": 4,
     "indent_char": " ",
     "indent_with_tabs": false,
-    "editorconfig", false,
+    "editorconfig": false,
     "eol": "\n",
     "end_with_newline": false,
     "indent_level": 0,
@@ -338,6 +337,7 @@ HTML Beautifier Options:
   -E, --extra_liners                 List of tags (defaults to [head,body,/html] that should have an extra newline before them.
   --editorconfig                     Use EditorConfig to set up the options
   --indent_scripts                   Sets indent level inside script tags ("normal", "keep", "separate")
+  --unformatted_content_delimiter    Keep text content together between this string [""]
 ```
 
 ## Directives to Ignore or Preserve sections (Javascript beautifier only)
@@ -378,4 +378,4 @@ Thanks also to Jason Diamond, Patrick Hof, Nochum Sossonko, Andreas Schneider, D
 Vasilevsky, Vital Batmanov, Ron Baldwin, Gabriel Harrison, Chris J. Shull,
 Mathias Bynens, Vittorio Gambaletta and others.
 
-(README.md: js-beautify@1.8.8)
+(README.md: js-beautify@1.9.0-beta4)
