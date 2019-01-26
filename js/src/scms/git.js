@@ -1,11 +1,12 @@
+'use strict';
+
 var execa = require('execa'),
     findUp = require('find-up'),
     dirname = require('path');
 
 var name = 'git';
 
-var detect = function (directory) {
-    "use strict";
+exports.detect = function (directory) {
     var gitDirectory = findUp.sync('.git', {
         cwd: directory
     });
@@ -14,15 +15,13 @@ var detect = function (directory) {
     }
 };
 
-var runGit = function (directory, args) {
-    "use strict";
+exports.runGit = function (directory, args) {
     execa.sync('git', args, {
-        cwd: directory,
+        cwd: directory
     });
 };
 
-var getLines = function (execaResult) {
-    "use strict";
+exports.getLines = function (execaResult) {
     return execaResult.stdout.split('\n');
 };
 
@@ -30,7 +29,6 @@ var getLines = function (execaResult) {
 //     staged,
 //     branch
 // }) {
-//     "use strict";
 //     try {
 //         var revision = staged ?
 //             'HEAD' :
@@ -51,34 +49,28 @@ var getLines = function (execaResult) {
 //     }
 // };
 
-var getChangedFiles = function (directory, revision, staged) {
-    "use strict";
-    return [
-        ...getLines(
-            runGit(
-                directory,
-                [
-                    'diff',
-                    '--name-only',
-                    staged ? '--cached' : null,
-                    '--diff-filter=ACMRTUB',
-                    revision,
-                ].filter(Boolean)
-            )
-        ),
-        ...(staged ? [] :
-            getLines(
-                runGit(directory, ['ls-files', '--others', '--exclude-standard'])
-            )),
-    ].filter(Boolean);
+exports.getChangedFiles = function (directory, revision, staged) {
+    return [].concat(getLines(
+        runGit(
+            directory,
+            [
+                'diff',
+                '--name-only',
+                staged ? '--cached' : null,
+                '--diff-filter=ACMRTUB',
+                revision,
+            ].filter(Boolean)
+        )
+    )).concat((staged ? [] :
+        getLines(
+            runGit(directory, ['ls-files', '--others', '--exclude-standard'])
+        ))).filter(Boolean);
 };
 
 // var getUnstagedChangedFiles = directory => {
-//     "use strict";
 //     return getChangedFiles(directory, null, false);
 // };
 
 // var stageFile = function (directory, file) {
-//     "use strict";
 //     runGit(directory, ['add', file]);
 // };

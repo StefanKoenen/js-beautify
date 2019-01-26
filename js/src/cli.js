@@ -655,11 +655,13 @@ function checkFiles(parsed) {
 
     var directory = scm.rootDirectory;
     var revision = since || scm.getSinceRevision(directory, {
-      staged,
-      branch
+      staged: staged,
+      branch: branch
     });
 
-    onFoundSinceRevision && onFoundSinceRevision(scm.name, revision);
+    if (onFoundSinceRevision != null) {
+      onFoundSinceRevision(scm.name, revision);
+    }
 
     var changedFiles = scm.getChangedFiles(directory, revision, staged);
     var unstagedFiles = staged ? scm.getUnstagedChangedFiles(directory, revision) : [];
@@ -668,10 +670,10 @@ function checkFiles(parsed) {
     };
 
     var files = changedFiles.filter(wasFullyStaged).map(function (f) {
-      path.resolve(f)
+      return path.resolve(f);
     });
     parsed.files = files.filter(function (f) {
-      return parsed.files.indexOf(f) !== -1
+      return parsed.files.indexOf(f) !== -1;
     });
   }
 
