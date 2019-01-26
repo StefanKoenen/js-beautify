@@ -4,7 +4,7 @@ var execa = require('execa'),
     findUp = require('find-up'),
     dirname = require('path');
 
-var name = 'git';
+exports.name = 'git';
 
 exports.detect = function (directory) {
     var gitDirectory = findUp.sync('.git', {
@@ -51,18 +51,18 @@ exports.getLines = function (execaResult) {
 
 exports.getChangedFiles = function (directory, revision, staged) {
     return [].concat(getLines(
-        runGit(
+        exports.runGit(
             directory,
             [
                 'diff',
                 '--name-only',
                 staged ? '--cached' : null,
                 '--diff-filter=ACMRTUB',
-                revision,
+                revision
             ].filter(Boolean)
         )
     )).concat((staged ? [] :
-        getLines(
+        exports.getLines(
             runGit(directory, ['ls-files', '--others', '--exclude-standard'])
         ))).filter(Boolean);
 };

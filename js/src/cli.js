@@ -659,7 +659,7 @@ function checkFiles(parsed) {
       branch: branch
     });
 
-    if (onFoundSinceRevision != null) {
+    if (onFoundSinceRevision !== null) {
       onFoundSinceRevision(scm.name, revision);
     }
 
